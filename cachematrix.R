@@ -9,6 +9,7 @@ makeCacheMatrix <- function(x = matrix()) {
         inv <<- NULL
     }
     get <- function() x
+    # define R function "solve" for calculating inverse matrix:
     setinv <- function(solve) inv <<- solve
     getinv <- function() inv
     list(set = set, get = get,
@@ -22,10 +23,12 @@ makeCacheMatrix <- function(x = matrix()) {
 cacheSolve <- function(x, ...) {
     ## Return a matrix that is the inverse of 'x'
     inv <- x$getinv()
+    # check if inverse matrix is in cache; if yes, return:
     if(!is.null(inv)) {
         message("getting cached data")
         return(inv)
     }
+    # inverse matrix not in cache, so calculate it:
     data <- x$get()
     inv <- solve(data, ...)
     x$setinv(inv)
